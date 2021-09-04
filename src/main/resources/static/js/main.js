@@ -119,3 +119,14 @@ function getAvatarColor(messageSender) {
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', send, true)
+
+// Notification message when user leaves the chat
+window.onbeforeunload = sendLeaveMessage
+function sendLeaveMessage() {
+    var chatMessage = {
+            sender: username,
+            type: 'LEAVE'
+        }; 
+    stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+    return null
+}
